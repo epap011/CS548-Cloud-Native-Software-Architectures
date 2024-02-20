@@ -1,2 +1,2 @@
 # CS548
-CS548: Software Architectures for Cloud Computing
+CS548: Cloud-Native Software Architectures
