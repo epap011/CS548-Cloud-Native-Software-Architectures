@@ -1,4 +1,5 @@
 name: ci
+working-directory: CS548/Assignment1
 
 on:
   push:
