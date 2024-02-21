@@ -28,4 +28,4 @@ jobs:
           context: ./Assignment_1
           file: ./Assignment_1/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/hy548-site:latest
