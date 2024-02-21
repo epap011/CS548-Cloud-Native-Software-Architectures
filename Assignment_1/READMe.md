@@ -1,17 +1,27 @@
-# Exercise 1
+# CS548 | Assignment 1 | Efthymios Papageorgiou - csdp1344
+
+## Exercise 1
+
+### a. Download the images tagged 1.23.3 and 1.23.3-alpine locally.
 
 > docker pull nginx:1.23.3  
 
-> docker pull nginx:1.23.3sudo docker pull nginx:1.23.3
+> docker pull nginx:1.23.3-alpine
 
-REPOSITORY   TAG             IMAGE ID       CREATED         SIZE
-nginx        1.23.3          ac232364af84   11 months ago   142MB
-nginx        1.23.3-alpine   2bc7edbc3cf2   12 months ago   40.7MB
+### b. Compare the sizes of the two images.
+
+> docker images  
+
+nginx:1.23.3 is 142MB  
+nginx:1.23.3-alpine is 40.7MB
+
+### c. Start one of the two images in the background, with the appropriate network settings to forward port 80 locally and use a browser (or curl or wget) to see that calls are answered. What is the answer?
 
 > docker run -p 80:80 -d nginx:1.23.3-alpine  
 
 > curl http://localhost/  
 
+Answer 
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,11 +46,14 @@ Commercial support is available at
 </body>
 </html>  
 
+### d. Confirm that the container is running in Docker
+
 > docker ps  
 
 CONTAINER ID   IMAGE                 COMMAND                  CREATED          STATUS          PORTS                               NAMES
 fa5cebf3fe9c   nginx:1.23.3-alpine   "/docker-entrypoint.…"   12 seconds ago   Up 11 seconds   0.0.0.0:80->80/tcp, :::80->80/tcp   quizzical_mcnulty 
 
+### e. Get the logs of the running container.
 > docker logs fa5cebf3fe9c  
 
 epap011@fedora:~$ sudo docker logs fa5cebf3fe9c
@@ -68,21 +81,25 @@ epap011@fedora:~$ sudo docker logs fa5cebf3fe9c
 2024/02/17 14:55:27 [notice] 1#1: start worker process 37
 172.17.0.1 - - [17/Feb/2024:14:55:35 +0000] "GET / HTTP/1.1" 200 615 "-" "curl/8.2.1" "-"  
 
+### f. Stop the running container.
 > docker stop fa5cebf3fe9c  
 
 Output: fa5cebf3fe9c
 
+### g. Start the stopped container.
 > docker start fa5cebf3fe9c  
 
 Output: fa5cebf3fe9c  
 
+### h. Stop the container and remove it from Docker.
 > docker rm -f fa5cebf3fe9c  
 
 Output: fa5cebf3fe9c
 
-# Exercise 2  
+## Exercise 2  
 
-## a
+## a. Open a shell session inside the running container and change the first sentence of the default page to "Welcome to MY nginx!". Close the session.
+
 > docker run -p 80:80 -d 2bc7edbc3cf2 
 
 > docker exec -it d93d0072397f sh  
@@ -115,7 +132,7 @@ Commercial support is available at
 </body>
 </html>
 
-## b
+## b. From your computer's terminal (outside the container) download the default page locally and upload another one in its place.
 
 > docker cp d93d0072397f:/usr/share/nginx/html/index.html .  
 
@@ -151,7 +168,14 @@ Commercial support is available at
 </body>
 </html>
 
-# Exercise 3
+### c. Close the container, delete it and start another instance. Do you see the changes? Why;
+
+Answer: I did not observe any changes. This is because when you close a container, any changes made to its filesystem (or configuration) are lost. 
+
+## Exercise 3
+
+### The code that produces the course's website is available on GitHub (https://github.com/chazapis/hy548). Write down the commands needed to download the repository (and submodules) and hugo (the tool that builds the website), build the website locally, and start an Nginx container to serve the CS-548 website instead of the default page.
+
 
 > git clone https://github.com/chazapis/hy548  
 
@@ -165,14 +189,19 @@ Commercial support is available at
 
 > docker exec -it sad_leavitt sh  
 
-> updated location -> public  
+updated location -> public  
 
 > nginx -s reload  
 
-> Done  
+Done  
 
 # Exercise 4
 
+### Following the previous exercise, create your own container image, based on Nginx, that will contain the CS-548 website instead of the default page. Downloading the CS-548 repository (and submodules), hugo and building the site should be done in the Dockerfile. Create a Docker Hub account and upload the image.
+
+### a. The Dockerfile (inside the folder Assignment_1)
+
+### b. commands needed to upload the image to Docker Hub
 > docker login -u epap011
 
 > docker build  -t epap011/hy548-site .  
@@ -181,5 +210,14 @@ Commercial support is available at
 
 > docker push epap011/hy548-site:latest  
 
-# Exercise 5
+### c. How much bigger is your own image than the image you were based on. Why;
+Answer: 
 
+### d. What have you done in the Dockerfile to keep the image as small as possible?
+Answer: 
+
+## Exercise 5
+
+### Upload the Dockerfile from the previous exercise to your GitHub repository. Create a GitHub Action that will automatically build and push the image to your Docker Hub account (the workflow should be initiated by the user). Provide the YAML of the workflow you made.
+
+The yaml file(main.yml) is located at CS548/.github/workflows/
