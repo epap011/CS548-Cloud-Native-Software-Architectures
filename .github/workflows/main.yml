@@ -1,5 +1,4 @@
 name: ci
-working-directory: ./Assignment_1
 
 on:
   push:
