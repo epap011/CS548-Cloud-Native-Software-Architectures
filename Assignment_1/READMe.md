@@ -211,10 +211,10 @@ Done
 > docker push epap011/hy548-site:latest  
 
 ### c. How much bigger is your own image than the image you were based on. Why;
-Answer: 
+Answer: The size of nginx image is 142MB. My image is 143MB (1MB bigger than the image than is based on). Because it contains an extra folder, which is the public folder of the hy548-site.
 
 ### d. What have you done in the Dockerfile to keep the image as small as possible?
-Answer: 
+Answer:  I uninstalled the hugo, make and git packages. I removed the hy548 folder. When i downloaded the packages (hugo, make, git) i used the option --no-cache to avoid the indexes to be cached locally. 
 
 ## Exercise 5
 
