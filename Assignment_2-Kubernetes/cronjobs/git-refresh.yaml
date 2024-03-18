@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cs548-git-refresh
+spec:
+  #schedule: "15 2 * * *" # 02:15
+  schedule: "0 21 * * *"  # 21:00
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: ubuntu-cron-checker
+            image: ubuntu:20.04
+            command: ["/scripts/git_refresh.sh"]
+            volumeMounts:
+            - name: config-volume
+              mountPath: /scripts
+            - name: cs548-site-volume
+              mountPath: /cs548-site
+          volumes:
+          - name: config-volume
+            configMap:
+              name: cs548-site-script
+          - name: cs548-site-volume
+            persistentVolumeClaim:
+              claimName: cs548-site-pvc
