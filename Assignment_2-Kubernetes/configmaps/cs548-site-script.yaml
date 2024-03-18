@@ -10,4 +10,20 @@ data:
     dpkg -i hugo_extended_0.111.3_linux-amd64.deb
     git clone https://github.com/chazapis/hy548
     cd /hy548 && git submodule init && git submodule update
-    cd /hy548/html && hugo -D && ls -l
+    cd /hy548/html && hugo -D
+    rm -rf /cs548-site/*
+    mv /hy548/html/public/* /cs548-site
+
+  git_refresh.sh: |
+    #!/bin/sh
+    local_head =$(git -C hy548 rev-parse HEAD)
+    remote_head=$(git -C hy548 rev-parse @{u})
+    if [ "$local_head" != "$remote_head" ]; then
+      git -C hy548 pull
+      cd /hy548/html && hugo -D
+      rm -rf /cs548-site/*
+      mv /hy548/html/public/* /cs548-site
+      echo "Changes detected and updated"
+    else
+      echo "No changes"
+    fi
