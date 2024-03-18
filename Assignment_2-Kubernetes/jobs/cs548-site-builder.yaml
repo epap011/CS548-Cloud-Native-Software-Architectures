@@ -13,7 +13,7 @@ spec:
         - name: scripts-volume
           mountPath: /scripts
         - name: cs548-site-volume
-          mountPath: /cs548site
+          mountPath: /cs548-site
       restartPolicy: Never
       volumes:
       - name: scripts-volume
