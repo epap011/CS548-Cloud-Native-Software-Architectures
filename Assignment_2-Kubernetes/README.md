@@ -1,6 +1,7 @@
 # CS548 | Assignment 2 - Kubernetes | Efthymios Papageorgiou - csdp1344
 
-## Exercise 1 - Provide the YAML that runs a Pod with Nginx 1.23.3-alpine as well as the kubectl commands needed to
+## Exercise 1
+Provide the YAML that runs a Pod with Nginx 1.23.3-alpine as well as the kubectl commands needed to
 
 ### a. Install the manifest on Kubernetes and start the Pod.
 
@@ -85,3 +86,30 @@ We get as output the Nekronomikon page
 ### f. Stop the Pod and remove the manifest from Kubernetes.  
 
 > kubectl delete pod assignment2-csdp1344  
+
+## Exercise 2
+The code that produces the course's website is available on GitHub (https://github.com/chazapis/hy548). Provide the YAML that creates a Job using Ubuntu 20.04, which when started will run a script (defined in a ConfigMap) that will download the repository (and submodules), hugo (the tool that builds the website), and build the website. Which command can you use to confirm that the Job completed successfully?
+
+> kubectl apply -f configmaps/cs548-site-script.yaml  
+
+> kubectl apply -f jobs/cs548-site-builder.yaml 
+
+To confirm that the job completed successfully, we can do  
+
+> kubectl get job cs548-site-builder  
+
+and check the COMPLETIONS field. If the job is succussfully completed, then the field my show 1/1.  
+
+#### A nice bug.
+
+*When i submited the job, i was was waiting a couple of seconds for its completion. Sometime, i checked the pods that are created by this job. It were 5 pods with the name cs540-site-builder-*. When i saw them, i was like, Ohh the job failed, restart policy mechanism is being triggered 5 times (5 fails). So i started to check for the error. First i got all the pods related to the job by executing this command:*
+
+> kubectl get pods --selector=job-name=cs548-site-builder  
+
+All the related pods were listed. After that, i picked one of those and i did  
+
+> kubectl logs cs548-site-builder-dsvq5  
+
+The message was clear enough: **/bin/sh: 0: Can't open /scripts/build-script.sh**  
+
+I missmached the script name between the job and configmap :)

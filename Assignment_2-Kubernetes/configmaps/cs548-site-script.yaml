@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cs548-site-script
+data:
+  build_cs548_site.sh: |
+    #!/bin/sh
+    apt update && apt install -y git wget
+    wget wget https://github.com/gohugoio/hugo/releases/download/v0.111.3/hugo_extended_0.111.3_linux-amd64.deb
+    dpkg -i hugo_extended_0.111.3_linux-amd64.deb
+    git clone https://github.com/chazapis/hy548
+    cd /hy548 && git submodule init && git submodule update
+    cd /hy548/html && hugo -D && ls -l

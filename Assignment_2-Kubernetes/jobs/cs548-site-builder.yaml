@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cs548-site-builder
+spec:
+  template:
+    spec:
+      containers:
+      - name: ubuntu
+        image: ubuntu:20.04
+        command: ["/bin/sh", "/scripts/build_cs548_site.sh"]
+        volumeMounts:
+        - name: scripts-volume
+          mountPath: /scripts
+      restartPolicy: Never
+      volumes:
+      - name: scripts-volume
+        configMap:
+          name: cs548-site-script
