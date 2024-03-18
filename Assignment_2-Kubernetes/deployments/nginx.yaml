@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: assignment2-csdp1344
+  name: nginx-ex3-csdp1344
 spec:
   containers:
   - name: nginx
@@ -17,7 +17,10 @@ spec:
       requests:
         cpu: "0.5"
         memory: "200Mi"
-    volumes:
+    volumeMounts:
     - name: cs548-site-volume
-      persistentVolumeClaim:
-        claimName: cs548-webpage-pvc
+      mountPath: usr/share/nginx/html
+  volumes:
+  - name: cs548-site-volume
+    persistentVolumeClaim:
+      claimName: cs548-site-pvc
