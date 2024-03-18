@@ -12,8 +12,13 @@ spec:
         volumeMounts:
         - name: scripts-volume
           mountPath: /scripts
+        - name: cs548-site-volume
+          mountPath: /cs548site
       restartPolicy: Never
       volumes:
       - name: scripts-volume
         configMap:
           name: cs548-site-script
+      - name: cs548-site-volume
+        persistentVolumeClaim:
+          claimName: cs548-site-pvc
