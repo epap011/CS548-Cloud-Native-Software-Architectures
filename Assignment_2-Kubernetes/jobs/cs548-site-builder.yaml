@@ -14,6 +14,8 @@ spec:
           mountPath: /scripts
         - name: cs548-site-volume
           mountPath: /cs548-site
+        - name: cs548-repo-volume
+          mountPath: /hy548_repo
       restartPolicy: Never
       volumes:
       - name: scripts-volume
@@ -22,3 +24,6 @@ spec:
       - name: cs548-site-volume
         persistentVolumeClaim:
           claimName: cs548-site-pvc
+      - name: cs548-repo-volume
+        persistentVolumeClaim:
+          claimName: cs548-repo-pvc
