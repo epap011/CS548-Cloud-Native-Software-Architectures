@@ -9,6 +9,8 @@ data:
     wget https://github.com/gohugoio/hugo/releases/download/v0.111.3/hugo_extended_0.111.3_linux-amd64.deb
     dpkg -i hugo_extended_0.111.3_linux-amd64.deb
     cd /hy548_repo
+    rm -rf /hy548_repo/hy548
+    rm -rf /cs548-site/*
     git clone https://github.com/chazapis/hy548
     cd /hy548_repo/hy548 && git submodule init && git submodule update
     cd /hy548_repo/hy548/html && hugo -D
