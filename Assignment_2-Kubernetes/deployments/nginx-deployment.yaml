@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      initContainers:
+      - name: init-container
+        image: alpine:latest
+        command: ['/bin/sh', '-c', 'until [ -f /cs548-site/index.html ]; do sleep 2; done']
+        volumeMounts:
+        - name: cs548-site-volume
+          mountPath: /cs548-site
+      containers:
+      - name: nginx
+        image: nginx:1.23.3-alpine
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "1"
+            memory: "500Mi"
+          requests:
+            cpu: "0.5"
+            memory: "200Mi"
+        volumeMounts:
+        - name: cs548-site-volume
+          mountPath: usr/share/nginx/html
+      volumes:
+      - name: cs548-site-volume
+        persistentVolumeClaim:
+          claimName: cs548-site-pvc
