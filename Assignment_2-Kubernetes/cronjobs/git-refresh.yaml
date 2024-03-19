@@ -3,8 +3,7 @@ kind: CronJob
 metadata:
   name: cs548-git-refresh
 spec:
-  #schedule: "15 2 * * *" # 02:15
-  schedule: "0 21 * * *"  # 21:00
+  schedule: "15 2 * * *" # 02:15
   jobTemplate:
     spec:
       template:
@@ -13,12 +12,14 @@ spec:
           containers:
           - name: ubuntu-cron-checker
             image: ubuntu:20.04
-            command: ["/scripts/git_refresh.sh"]
+            command: ["/bin/sh", "/scripts/git_refresh.sh"]
             volumeMounts:
             - name: config-volume
               mountPath: /scripts
             - name: cs548-site-volume
               mountPath: /cs548-site
+            - name: cs548-repo-volume
+              mountPath: /hy548_repo
           volumes:
           - name: config-volume
             configMap:
@@ -26,3 +27,6 @@ spec:
           - name: cs548-site-volume
             persistentVolumeClaim:
               claimName: cs548-site-pvc
+          - name: cs548-repo-volume
+            persistentVolumeClaim:
+              claimName: cs548-repo-pvc
