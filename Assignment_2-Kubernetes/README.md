@@ -113,3 +113,33 @@ All the related pods were listed. After that, i picked one of those and i did
 The message was clear enough: **/bin/sh: 0: Can't open /scripts/build-script.sh**  
 
 I missmached the script name between the job and configmap :)
+
+
+## Exercise 3 
+Following the previous two exercises, provide a single YAML that will run the Pod with Nginx, the above Job with the script, and a CronJob that will refresh the content every night at 2:15 (only if changes have been made to git). The Nginx Pod should serve the web pages produced by the Jobs instead of the default page. Briefly describe how data is communicated between containers  
+
+Create the persistent volume for the cs548 site  
+> kubectl apply -f persistent_volume_claims/cs548-site-vpc.yaml  
+
+Create the persistent volume for the cs548 site repository  
+> kubectl apply -f persistent_volume_claims/cs548-repo-vpc.yaml
+
+Apply the, updated(compared to Exercise 2), ConfigMap  
+> kubectl apply -f configmaps/cs548-site-script.yaml  
+
+Deploy nginx  
+> kubectl apply -f deployments/nginx.yaml
+
+Apply the Job  
+
+> kubectl apply -f jobs/cs548-site-builder.yaml  
+
+Apply the CronJob  
+
+> kubectl apply -f cronjobs/git-refresh.yaml  
+
+Story about communication..  
+
+## Exercise 4  
+
+YAMLs will talk
