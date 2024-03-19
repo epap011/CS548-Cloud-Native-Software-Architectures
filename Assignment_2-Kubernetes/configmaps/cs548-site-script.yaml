@@ -6,23 +6,33 @@ data:
   build_cs548_site.sh: |
     #!/bin/sh
     apt update && apt install -y git wget
-    wget wget https://github.com/gohugoio/hugo/releases/download/v0.111.3/hugo_extended_0.111.3_linux-amd64.deb
+    wget https://github.com/gohugoio/hugo/releases/download/v0.111.3/hugo_extended_0.111.3_linux-amd64.deb
     dpkg -i hugo_extended_0.111.3_linux-amd64.deb
+    cd /hy548_repo
     git clone https://github.com/chazapis/hy548
-    cd /hy548 && git submodule init && git submodule update
-    cd /hy548/html && hugo -D
+    cd /hy548_repo/hy548 && git submodule init && git submodule update
+    cd /hy548_repo/hy548/html && hugo -D
     rm -rf /cs548-site/*
-    mv /hy548/html/public/* /cs548-site
+    mv /hy548_repo/hy548/html/public/* /cs548-site
 
   git_refresh.sh: |
     #!/bin/sh
-    local_head =$(git -C hy548 rev-parse HEAD)
-    remote_head=$(git -C hy548 rev-parse @{u})
+    apt update && apt install -y git wget
+    cd /hy548_repo/hy548
+    ls -al
+    local_head =$(git rev-parse HEAD)
+    remote_head=$(git rev-parse @{u})
+
+    echo "Local head: $local_head"
+    echo "Remote head: $remote_head"
+    cat .git/refs/heads/main
     if [ "$local_head" != "$remote_head" ]; then
-      git -C hy548 pull
-      cd /hy548/html && hugo -D
+      git pull
+      wget https://github.com/gohugoio/hugo/releases/download/v0.111.3/hugo_extended_0.111.3_linux-amd64.deb
+      dpkg -i hugo_extended_0.111.3_linux-amd64.deb
+      cd html && hugo -D
       rm -rf /cs548-site/*
-      mv /hy548/html/public/* /cs548-site
+      mv /hy548_repo/hy548/html/public/* /cs548-site
       echo "Changes detected and updated"
     else
       echo "No changes"
