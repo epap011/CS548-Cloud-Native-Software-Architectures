@@ -140,6 +140,12 @@ Apply the CronJob
 
 Story about communication..  
 
+For the data communication two persistent volumes were used. The first one, called cs548-repo-pvc, stores the course's repo. At first the cs548 site builder job downloads the repo and builds the site. At the same time the cronjob acceses this volume to detect any missmatches between the latest local commit and the latest remote commit.  
+
+The other volume persistem claim, which is called cs548-site-vpc stores the public/* files of the html folder. At first the cs548 site builder job appends those file to this repo. If the CronJob detects any changes to the other volume, described above, then it deletes all the old files that are stored in the cs548-site-vpc and stores the new ones.  
+
+This is all about the shared volumes and their usage.
+
 ## Exercise 4  
 
-YAMLs will talk
+The exercise is answered by the yaml stored in deployments/nginx-deployment.yaml. The idea here is that the init container, named init container, spins into the folder cs548-site and when it will detect the index.html file it stops the spinning. At this point we know the job that builds the site has finished.
