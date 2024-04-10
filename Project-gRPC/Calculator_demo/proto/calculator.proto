@@ -1,0 +1,36 @@
+// Comments
+// 1. Multiple messages can lead to dependencies bloat. Include as few messages as possible in a single file.
+
+syntax="proto3";
+
+package proto;
+
+// The value of this option should match the module name you've initialized in your Go project.
+option go_package = "example.com/grpc-calculator";
+
+//-------------------------------------------------------------------------
+//- messages are used to define the structure of the data being exchanged -
+//-------------------------------------------------------------------------
+
+// represents the data structure for an addition operation
+message Operands {
+    int32 a = 1;
+    int32 b = 2;
+}
+
+// this message wraps an Add message. It's used as a request payload for the Add operation.
+message AddRequest {
+    Operands operands = 1;
+}
+
+// This message represents the response from the Add operation
+message AddResponse {
+    int32 result = 1;
+}
+
+//-----------------------------------------------------------------------------
+//- Services define the RPC (Remote Procedure Call) interface for the server. -
+//-----------------------------------------------------------------------------
+service Calculator {
+  rpc Add(AddRequest) returns (AddResponse) {}
+}

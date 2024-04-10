@@ -1,0 +1,18 @@
+1. export the go path
+  > export PATH="$PATH:$(go env GOPATH)/bin"
+
+2. Create a new module
+    > go mod init example.com/grpc-calc
+
+3. Generate Go code from .proto file
+    > protoc --go_out=plugins=grpc:. calculator.proto
+    > protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative proto/calculator.proto
+
+4. if new dependencies are added to the project, run the following command to update the go.mod file
+    > go mod tidy
+
+5. Run the server
+    > go run server/main.go
+
+6. Run the client
+    > go run client/main.go
