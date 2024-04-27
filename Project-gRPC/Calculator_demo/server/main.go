@@ -1,4 +1,3 @@
-// server.go
 package main
 
 import (
@@ -9,16 +8,10 @@ import (
 	//This package provides support for networking operations, like listening for incoming connections.
 	"net"
 	//This is the generated Go code from the Protocol Buffers file calculator.proto
+
 	pb "example.com/grpc-calculator/proto"
-	//This package provides support for gRPC.
 	"google.golang.org/grpc"
-)
-
-// server is used to implement calculator.CalculatorServer
-type server struct {
-	pb.UnimplementedCalculatorServer
-}
-
+	
 // this method is a part of the server struct. It implements the Add RPC method defined in the gRPC service
 func (s *server) Add(ctx context.Context, req *pb.AddRequest) (*pb.AddResponse, error) {
 	result := req.Operands.A + req.Operands.B

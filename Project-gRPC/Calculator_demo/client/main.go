@@ -16,7 +16,8 @@ func main() {
 	flag.IntVar(&operand2, "b", 0, "Second operand")
 	flag.Parse()
 
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	//conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	conn, err := grpc.Dial("ec2-54-208-185-49.compute-1.amazonaws.com:50051", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Failed to connect: %v", err)
 	}
@@ -36,6 +37,5 @@ func main() {
 		log.Fatalf("Error calling Add: %v", err)
 	}
 
-	// Print the result of the addition operation
 	fmt.Printf("%d + %d = %d\n", operand1, operand2, res.Result)
 }
