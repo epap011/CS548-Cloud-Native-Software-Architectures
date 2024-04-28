@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: flask-env-var-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /first
+            pathType: Prefix
+            backend:
+              service:
+                name: flask-env-var-1-service
+                port:
+                  number: 8080
+    - http:
+        paths:
+          - path: /second
+            pathType: Prefix
+            backend:
+              service:
+                name: flask-env-var-2-service
+                port:
+                  number: 8080
