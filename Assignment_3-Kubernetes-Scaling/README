@@ -42,3 +42,29 @@ Output: This is the first service
 Visit the /second endpoint  
 > curl http://192.168.49.2/second  
 Output: This is the second service  
+
+## Exercise 2: 
+Following on from the previous exercise, extend the YAML that implements the /first endpoint  
+
+### a. To limit each Pod to a maximum of 20% CPU and 256MB RAM.  
+check the lines 20,21 of the first.yaml  
+
+### b. With a HorizontalPodAutoscaler manifest, which will increase the number of Pods in the Deployment when the average CPU usage exceeds 80%. Set a minimum of 1 Pod and a maximum of 8 for the Deployment.  
+
+locust.yaml  
+> kubectl apply -f locust.yaml  
+
+> kubectl get hpa --watch
+```
+NAME                         REFERENCE                               TARGETS   MINPODS   MAXPODS   REPLICAS   AGE  
+flask-env-var-1-deployment   Deployment/flask-env-var-1-deployment   0%/20%    1         8         1          8h  
+flask-env-var-1-deployment   Deployment/flask-env-var-1-deployment   56%/20%   1         8         1          8h  
+flask-env-var-1-deployment   Deployment/flask-env-var-1-deployment   56%/20%   1         8         3          9h  
+flask-env-var-1-deployment   Deployment/flask-env-var-1-deployment   28%/20%   1         8         3          9h  
+flask-env-var-1-deployment   Deployment/flask-env-var-1-deployment   21%/20%   1         8         3          9h  
+flask-env-var-1-deployment   Deployment/flask-env-var-1-deployment   20%/20%   1         8         3          9h  
+flask-env-var-1-deployment   Deployment/flask-env-var-1-deployment   21%/20%   1         8         3          9h  
+flask-env-var-1-deployment   Deployment/flask-env-var-1-deployment   20%/20%   1         8         3          9h  
+flask-env-var-1-deployment   Deployment/flask-env-var-1-deployment   21%/20%   1         8         3          9h  
+flask-env-var-1-deployment   Deployment/flask-env-var-1-deployment   20%/20%   1         8         3          9h  
+```
