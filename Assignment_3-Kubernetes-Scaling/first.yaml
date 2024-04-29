@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-env-var-1-deployment
+  name: flask-first-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: flask-env-var-1
+      app: flask-first
   template:
     metadata:
       labels:
-        app: flask-env-var-1
+        app: flask-first
     spec:
       containers:
-        - name: flask-env-var-1
+        - name: flask-first
           image: epap011/flask-env-var
           resources:
             limits:
@@ -26,10 +26,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: flask-env-var-1-service
+  name: flask-first-service
 spec:
   type: ClusterIP
   ports:
     - port: 8080
   selector:
-    app: flask-env-var-1
+    app: flask-first

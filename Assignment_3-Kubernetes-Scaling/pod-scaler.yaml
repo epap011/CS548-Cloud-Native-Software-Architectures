@@ -1,12 +1,12 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: flask-env-var-1-hpa
+  name: flask-first-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: flask-env-var-1-deployment
+    name: flask-first-deployment
   minReplicas: 1
   maxReplicas: 8
   metrics:

@@ -65,7 +65,7 @@ spec:
         image: locustio/locust:2.8.4
         resources:
           limits:
-            cpu: "200m"
+            cpu: "800m"
             memory: "128Mi"
         args:
           - "-f"
