@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: greeting-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: greeting-controller
+  template:
+    metadata:
+      labels:
+        app: greeting-controller
+    spec:
+      containers:
+      - name: greeting-controller
+        image: epap011/greetings-controller:latest
+        imagePullPolicy: Always
