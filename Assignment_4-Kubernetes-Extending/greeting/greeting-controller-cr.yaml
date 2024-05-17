@@ -3,6 +3,12 @@ kind: ClusterRole
 metadata:
   name: greeting-controller-role
 rules:
+- apiGroups: [""]
+  resources: ["namespaces"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["get", "list", "watch"]
 - apiGroups: ["hy548.csd.uoc.gr"]
   resources: ["greetings"]
   verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]

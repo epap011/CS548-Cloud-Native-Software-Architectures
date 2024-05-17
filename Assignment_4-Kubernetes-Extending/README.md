@@ -61,4 +61,27 @@ Docker Image can be found at: https://hub.docker.com/repository/docker/epap011/g
 
 ### b. Provide greeting-controller.yaml, which will create a Deployment with the container you made. Make sure the necessary permissions are set so the controller can read the "Greeting" CRDs and create the corresponding Deployments with the hello-kubernetes container in all namespaces.  
 
-> 
+
+check files:  
+- ClusterRole & ClusterRoleBinding : greeting/greeting-controller.cr.yaml
+- Deployent: greeting/greeting-controller-dm.yaml  
+
+
+Verify that deployment works correctly (STATUS == RUNNING)
+> kubectl get pods -l app=greeting-controller  
+
+Output: 
+```
+NAME                                   READY   STATUS    RESTARTS   AGE
+greeting-controller-69586d8767-ktft7   1/1     Running   0          33m
+```
+
+## Exercise 3 
+The example code for the webhooks is available on GitHub (https://github.com/chazapis/hy548). Extend the example so that:  
+
+### a. The executable controller.py runs inside a container. Provide the Dockerfile. Build and upload the new container to Docker Hub.
+
+Docker image can be found: https://hub.docker.com/repository/docker/epap011/webhook-controller/general  
+
+### b. The webhook.yaml should use the new container instead of the proxy with Nginx. Provide the new webhook.yaml.  
+

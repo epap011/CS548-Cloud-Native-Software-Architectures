@@ -3,7 +3,9 @@ FROM python:3.9-slim
 WORKDIR /app
 
 COPY controller.py /app
+COPY kubeclient.py /app
 COPY requirements.txt /app
+
 
 RUN apt-get update && \ 
     apt-get install -y curl && \
