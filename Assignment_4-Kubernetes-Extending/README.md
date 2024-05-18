@@ -1,4 +1,4 @@
-# CS548 | Assignment 3 - Scalling apps on Kubernetes | Efthymios Papageorgiou - csdp1344
+# CS548 | Assignment 4 - Kubernetes-Extending | Efthymios Papageorgiou - csdp1344
 
 ## Exercise 1
 Provide the YAML that allows you to manage a custom resource of type "Fruit" with Kubernetes. An example instance is the following:
@@ -61,13 +61,13 @@ Docker Image can be found at: https://hub.docker.com/repository/docker/epap011/g
 
 ### b. Provide greeting-controller.yaml, which will create a Deployment with the container you made. Make sure the necessary permissions are set so the controller can read the "Greeting" CRDs and create the corresponding Deployments with the hello-kubernetes container in all namespaces.  
 
-
 check files:  
 - ClusterRole & ClusterRoleBinding : greeting/greeting-controller.cr.yaml
 - Deployent: greeting/greeting-controller-dm.yaml  
 
 
-Verify that deployment works correctly (STATUS == RUNNING)
+Provide the commands you used to verify that the deployment works correctly.
+
 > kubectl get pods -l app=greeting-controller  
 
 Output: 
@@ -85,3 +85,53 @@ Docker image can be found: https://hub.docker.com/repository/docker/epap011/webh
 
 ### b. The webhook.yaml should use the new container instead of the proxy with Nginx. Provide the new webhook.yaml.  
 
+Provide the commands you used to verify the webhook works correctly.
+
+> kubectl describe deployment controller -n custom-label-injector  
+
+Output:
+```
+Name:                   controller
+Namespace:              custom-label-injector
+CreationTimestamp:      Sat, 18 May 2024 09:30:01 +0300
+Labels:                 app=custom-label-injector
+Annotations:            deployment.kubernetes.io/revision: 3
+Selector:               app=custom-label-injector
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=custom-label-injector
+  Containers:
+   controller:
+    Image:        epap011/webhook-controller:latest
+    Port:         8000/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  controller-7888887588 (0/0 replicas created), controller-5ccc656cc5 (0/0 replicas created)
+NewReplicaSet:   controller-5d9d6664c9 (1/1 replicas created)
+Events:
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  5m37s  deployment-controller  Scaled up replica set controller-7888887588 to 1
+  Normal  ScalingReplicaSet  4m31s  deployment-controller  Scaled up replica set controller-5ccc656cc5 to 1
+  Normal  ScalingReplicaSet  27s    deployment-controller  Scaled down replica set controller-7888887588 to 0 from 1
+  Normal  ScalingReplicaSet  27s    deployment-controller  Scaled up replica set controller-5d9d6664c9 to 1 from 0
+  Normal  ScalingReplicaSet  19s    deployment-controller  Scaled down replica set controller-5ccc656cc5 to 0 from 1
+  ```  
+
+  > kubectl get pods -n custom-label-injector  
+
+  Output:  
+  ```
+  NAME                          READY   STATUS    RESTARTS   AGE
+controller-5d9d6664c9-j8lsq   1/1     Running   0          11m  
+```
